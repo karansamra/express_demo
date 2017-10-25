@@ -1,0 +1,35 @@
+extends layout
+
+block content
+    h1= title
+    #listUser
+        table
+            thead
+                tr
+                    th First Name
+                    th Last Name
+                    th Email ID
+                    th Gender
+                    th Age
+            tbody
+                each val, index in usersData
+                    tr
+                        td= val.firstname
+                        td= val.lastname
+                        td= val.email_id
+                        td= val.gender
+                        td= val.age
+    script.
+        var socket = io.connect();
+        socket.on('connect', function (data) {
+            socket.emit('join', 'Socket Connection connected from Client.');
+        });
+        socket.on('users', function (data) {
+            console.log(data);
+            var row = "<tr><td>"+data.firstname+"</td>" +
+                "<td>"+data.lastname+"</td>" +
+                "<td>"+data.emailId+"</td>" +
+                "<td>"+data.gender+"</td>" +
+                "<td>"+data.age+"</td></tr>";
+            $("div#listUser table tbody").append(row);
+        });

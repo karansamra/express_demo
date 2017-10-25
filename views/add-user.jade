@@ -1,0 +1,45 @@
+extends layout
+
+block content
+    h1= title
+    #addUser
+        form
+            label(for='firstname') First Name:
+            input(type="text", name="firstname")#firstname
+            br
+            label(for='lastname') Last Name:
+            input(type="text", name="lastname")#lastname
+            br
+            label(for='emailId') Email ID:
+            input(type="text", name="emailId")#emailId
+            br
+            label Gender:
+                label
+                    input(type="radio", name="gender", value="1" checked)
+                    |Male
+                label
+                    input(type="radio", name="gender", value="2")
+                    |Female
+            br
+            label Age:
+            select(name='age')#age
+                - for (var i = 18; i <= 120; ++i)
+                    option(value=i)=i
+            br
+            br
+            input(type="button", value="Save", name="save")#save
+
+    script(type="text/javascript").
+        $(document).ready(function() {
+            $("div#addUser input#save").click(function() {
+                $.ajax({
+                    url: "/users/save",
+                    type: "post",
+                    data: $("div#addUser form").serialize(),
+                    dataType: 'json',
+                    success: function (result) {
+
+                    }
+                });
+            });
+        });
